@@ -1,5 +1,5 @@
 from ads.models import Ad
-from ads1.owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
+from ads.owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
 
 
 class AdListView(OwnerListView):
