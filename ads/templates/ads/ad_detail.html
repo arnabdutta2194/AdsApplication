@@ -14,7 +14,9 @@
     }
     </style>
 {% endblock %}
+
 {% block content %}
+
 {% if ad.content_type %}
 <div id="overlay" class="overlay" style="text-align: center;"
    onclick="document.getElementById('overlay').style.display = 'none';" >
@@ -29,18 +31,18 @@
 <a href="{% url 'ads:ad_delete' ad.id %}"><i class="fa fa-trash"></i></a>
 {% endif %}
 </span>
+
+
 <h1>{{ ad.title }}</h1>
 {% if ad.content_type %}
 <img style="float:right; max-width:50%;" src="{% url 'ads:ad_picture' ad.id %}"
     onclick="document.getElementById('overlay').style.display = 'block';">
 {% endif %}
-<p>
-<p>
-{{ ad.price }}
-{{ ad.text }}
-</p>
-<p>
-  {% if user.is_authenticated %}
+<p> {{ ad.price }} </p>
+</p> {{ ad.text }} </p>
+
+
+{% if user.is_authenticated %}
 <br clear="all"/>
 <p>
 {% load crispy_forms_tags %}
@@ -51,8 +53,9 @@
 <input type="submit" value="All Ads" onclick="window.location.href='{% url 'ads:all' %}';return false;">
 </form>
 </p>
+
 {% endif %}
-</p>
+
 {% for comment in comments %}
 <p> {{ comment.text }} 
 ({{ comment.updated_at|naturaltime }})
@@ -61,7 +64,5 @@
 {% endif %}
 </p>
 {% endfor %}
-<p>
-<a href="{% url 'ads:all' %}">All ads</a>
-</p>
+
 {% endblock %}
