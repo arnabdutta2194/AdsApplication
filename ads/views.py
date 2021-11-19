@@ -23,7 +23,7 @@ class AdDetailView(OwnerDetailView):
 class AdCreateView(LoginRequiredMixin,View):
     # model = Ad
     # fields = ['title', 'price', 'text'] #Which fields are to be shown on the screen
-    template_name = "ad_form.html"
+    template_name = "ads/ad_form.html"
     success_url = reverse_lazy('ads:all')
 
     def get(self,request,pk=None):
@@ -47,7 +47,7 @@ class AdUpdateView(LoginRequiredMixin,View):
     # model = Ad
     # fields = ['title', 'price' ,'text']
 
-    template_name = "ad_form.html"
+    template_name = "ads/ad_form.html"
     success_url = reverse_lazy('ads:all')
 
     def get(self,request,pk):

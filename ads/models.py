@@ -21,3 +21,5 @@ class Ad(models.Model):
 
     def __str__(self):
         return self.title
+
+''' Migration Problem : https://stackoverflow.com/questions/35494035/django-migrate-doesnt-create-tables '''
