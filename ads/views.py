@@ -94,8 +94,8 @@ class CommentDeleteView(OwnerDeleteView):
     
     # https://stackoverflow.com/questions/26290415/deleteview-with-a-dynamic-success-url-dependent-on-id
     def get_success_url(self):
-        forum = self.object.forum
-        return reverse('ads:ad_detail', args=[forum.id]) #To go back to forum
+        ad = self.object.ad
+        return reverse('ads:ad_detail', args=[ad.id]) #To go back to forum
 
 
 #Runs when we do a view image on any picture
