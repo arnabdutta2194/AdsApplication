@@ -1,12 +1,14 @@
-from ads.models import Ad
+from re import template
+from django.db import models
+from ads.models import Ad, Comment
 from ads.forms import CreateForm
+from ads.forms import CommentForm
 from ads.owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
@@ -72,6 +74,17 @@ class AdUpdateView(LoginRequiredMixin,View):
 
 class AdDeleteView(OwnerDeleteView):
     model = Ad
+
+class CommentCreateView(LoginRequiredMixin,View):
+    def post(self,request,pk):
+        a = get_object_or_404(Ad,id=pk)
+        comment=Comment(text=request.Post['comment'],owner =request.user, ad=a)
+        comment.save()
+        return redirect(reverse('ads:ad_detail',args=[pk]))
+
+class CommentDeleteView(OwnerDeleteView):
+    model=Comment
+    template_name = "ads/comment_delete.html"
 
 #Runs when we do a view image on any picture
 def stream_file(request, pk):
