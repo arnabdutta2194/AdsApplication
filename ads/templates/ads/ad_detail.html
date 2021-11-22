@@ -23,7 +23,14 @@
 <img style="width:90%;margin-top: 50px; border:3px solid black;" src="{% url 'ads:ad_picture' ad.id %}">
 </div>
 {% endif %}
-
+{% if ad.tags.all %}
+<p>Tags: 
+  {% for tag in ad.tags.all %}
+  <span style="border:1px grey solid; background-color: LightGreen;">{{ tag }}</span>
+  {% endfor %}
+</p>
+{% endif %}
+<p>
 <span style="float: right;">
 ({{ ad.updated_at|naturaltime }})
 {% if ad.owner == user %}

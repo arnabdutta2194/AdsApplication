@@ -18,7 +18,7 @@ class CreateForm(forms.ModelForm):
     # Hint: this will need to be changed for use in the ads application :)
     class Meta:
         model = Ad
-        fields = ['title', 'price', 'text', 'picture']  # Picture is manual  #Fields to show to user
+        fields = ['title', 'price', 'text', 'tags', 'picture']  # Picture is manual  #Fields to show to user
 
     # Validate the size of the picture
     def clean(self):
@@ -42,6 +42,8 @@ class CreateForm(forms.ModelForm):
 
         if commit:
             instance.save()
+            self.save_m2m() #To save the tag after the form is copied to the
+                            # model because tags are saved using many to many model
 
         return instance
 
