@@ -1,7 +1,7 @@
 from re import template
 import re
 from django.db import models
-from ads.models import Ad, Comment
+from ads.models import Ad, Comment, Fav
 from ads.forms import CreateForm
 from ads.forms import CommentForm
 from ads.owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
@@ -128,9 +128,9 @@ class AddFavoriteView(LoginRequiredMixin, View):
     def post(self, request, pk) :
         print("Add PK",pk)
         t = get_object_or_404(Ad, id=pk)
-        ad = Ad(user=request.user, ad=t)
+        fav = Fav(user=request.user, ad=t)
         try:
-            ad.save()  # In case of duplicate key
+            fav.save()  # In case of duplicate key
         except IntegrityError as e:
             pass
         return HttpResponse()
@@ -141,8 +141,8 @@ class DeleteFavoriteView(LoginRequiredMixin, View):
         print("Delete PK",pk)
         t = get_object_or_404(Ad, id=pk)
         try:
-            ad = Ad.objects.get(user=request.user, ad=t).delete()
-        except Ad.DoesNotExist as e:
+            fav = Fav.objects.get(user=request.user, ad=t).delete()
+        except Fav.DoesNotExist as e:
             pass
 
         return HttpResponse()
