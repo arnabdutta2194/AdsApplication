@@ -1,7 +1,9 @@
+from enum import unique
 from django.core import validators
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.conf import settings
+from django.db.models.deletion import CASCADE
 # Create your models here.
 
 class Ad(models.Model):
@@ -16,6 +18,7 @@ class Ad(models.Model):
     picture = models.BinaryField(null=True, blank=True, editable=True)
     content_type = models.CharField(max_length=256, null=True, blank=True, 
                                     help_text='The MIMEType of the file')
+    favorites = models.ManyToManyField(settings.AUTH_USER_MODEL,through='Fav',related_name='favorite_ads')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -36,5 +39,15 @@ class Comment(models.Model):
         if len(self.text) < 15: return self.text
         return self.text[:11] + "..."
 
+class Fav(models.Model):
+    ad = models.ForeignKey(Ad,on_delete=CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    class Meta:
+        #You cannot insert more than one combination of a Ad and a User
+        unique_together = ('ad','user')
+
+    def __str__(self):
+        return f"{self.user.username} likes {self.ad.title[:10]}"
+    
 ''' Migration Problem : https://stackoverflow.com/questions/35494035/django-migrate-doesnt-create-tables '''
